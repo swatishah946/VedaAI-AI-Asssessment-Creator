@@ -1,8 +1,30 @@
 import { Router, Request, Response } from 'express';
 import { assessmentQueue } from '../queue/assessmentQueue';
+import Assessment from '../models/Assessment';
 
 const router = Router();
 
+// Endpoint to fetch an assessment by ID
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const assessment = await Assessment.findById(req.params.id);
+    
+    if (!assessment) {
+      res.status(404).json({ error: 'Assessment not found' });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: assessment
+    });
+  } catch (error) {
+    console.error('Error fetching assessment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Endpoint to generate an assessment
 router.post('/generate', async (req: Request, res: Response): Promise<void> => {
   try {
     const { topic, difficulty, questionsCount } = req.body;
@@ -12,21 +34,32 @@ router.post('/generate', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // Define the job payload
-    const payload = {
+    // 1. Create a new document in MongoDB with status: 'processing'
+    const newAssessment = new Assessment({
       topic,
-      difficulty: difficulty || 'Medium',
+      difficulty: difficulty || 'Moderate',
       questionsCount,
-      createdAt: new Date().toISOString()
+      status: 'processing'
+    });
+    
+    const savedAssessment = await newAssessment.save();
+
+    // 2. Define the job payload, including the MongoDB document ID
+    const payload = {
+      assessmentId: savedAssessment._id,
+      topic,
+      difficulty: savedAssessment.difficulty,
+      questionsCount
     };
 
-    // Add a job to the queue
+    // 3. Add the job to the queue
     const job = await assessmentQueue.add('generate-assessment', payload);
 
-    // Immediately return the job ID so the frontend can start tracking it
+    // 4. Return the database ID so the frontend can poll or listen for it
     res.status(202).json({
       success: true,
       message: 'Assessment generation job queued successfully.',
+      assessmentId: savedAssessment._id,
       jobId: job.id,
       status: 'processing'
     });

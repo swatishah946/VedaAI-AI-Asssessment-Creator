@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import dummyRoutes from './routes/dummyRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
+import './queue/assessmentWorker'; // Initialize the background worker
 
 dotenv.config();
 
