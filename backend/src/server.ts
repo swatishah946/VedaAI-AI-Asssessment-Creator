@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import dummyRoutes from './routes/dummyRoutes';
+import assessmentRoutes from './routes/assessmentRoutes';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/dummy', dummyRoutes);
+app.use('/api/assessments', assessmentRoutes);
 
 // Health check route
 app.get('/health', (req: Request, res: Response) => {
