@@ -2,6 +2,9 @@ import express, { Express, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import http from 'http';
+import { initializeSocket } from './socket';
+
 import dummyRoutes from './routes/dummyRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
 import './queue/assessmentWorker'; // Initialize the background worker
@@ -11,8 +14,12 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 5000;
 
+// Create HTTP Server for Socket.io
+const server = http.createServer(app);
+initializeSocket(server);
+
 // Middleware
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
 app.use(express.json());
 
 // Routes
@@ -31,7 +38,8 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log('Successfully connected to MongoDB.');
-    app.listen(port, () => {
+    // IMPORTANT: Listen on the `server`, not the `app` directly
+    server.listen(port, () => {
       console.log(`[server]: Server is running at http://localhost:${port}`);
     });
   })
