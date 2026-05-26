@@ -1,0 +1,23 @@
+import React from 'react';
+import { ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
+
+export default function Header() {
+  return (
+    <header className="header">
+      <div className="header-title">
+        <ArrowLeft size={20} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} />
+        <LayoutGrid size={20} style={{ color: 'var(--text-muted)' }} />
+        <span>Assignment</span>
+      </div>
+
+      <div className="header-right">
+        <Bell size={20} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} />
+        <div className="user-profile">
+          <div className="user-avatar"></div>
+          <span style={{ fontSize: '14px', fontWeight: 500 }}>John Doe</span>
+          <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />
+        </div>
+      </div>
+    </header>
+  );
+}
