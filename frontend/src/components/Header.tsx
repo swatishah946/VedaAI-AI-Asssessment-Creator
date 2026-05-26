@@ -1,11 +1,16 @@
+'use client';
+
 import React from 'react';
 import { ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
+import { useAssessmentStore } from '../store/useAssessmentStore';
 
 export default function Header() {
+  const { setView } = useAssessmentStore();
+
   return (
     <header className="header">
       <div className="header-title">
-        <ArrowLeft size={20} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} />
+        <ArrowLeft size={20} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} onClick={() => setView('list')} />
         <LayoutGrid size={20} style={{ color: 'var(--text-muted)' }} />
         <span>Assignment</span>
       </div>

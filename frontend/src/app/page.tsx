@@ -1,8 +1,20 @@
+'use client';
+
+import AssessmentForm from '@/components/AssessmentForm';
+import LoadingState from '@/components/LoadingState';
+import AssessmentResult from '@/components/AssessmentResult';
+import AssignmentsList from '@/components/AssignmentsList';
+import { useAssessmentStore } from '@/store/useAssessmentStore';
+
 export default function Home() {
+  const { view } = useAssessmentStore();
+
   return (
-    <main style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>VedaAI Assessment Creator</h1>
-      <p>Frontend initialized successfully. Ready to build the UI!</p>
+    <main>
+      {view === 'list' && <AssignmentsList />}
+      {view === 'form' && <AssessmentForm />}
+      {view === 'loading' && <LoadingState />}
+      {view === 'result' && <AssessmentResult />}
     </main>
   );
 }

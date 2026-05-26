@@ -4,6 +4,17 @@ import Assessment from '../models/Assessment';
 
 const router = Router();
 
+// Fetch all assessments (history)
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const assessments = await Assessment.find().sort({ createdAt: -1 }); // Newest first
+    res.status(200).json(assessments);
+  } catch (error) {
+    console.error('Error fetching assessments:', error);
+    res.status(500).json({ error: 'Failed to fetch assessments' });
+  }
+});
+
 // Endpoint to fetch an assessment by ID
 router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -66,6 +77,21 @@ router.post('/generate', async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     console.error('Error queuing assessment job:', error);
     res.status(500).json({ error: 'Internal server error while queuing job.' });
+  }
+});
+
+// DELETE /api/assessments/:id
+router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const deleted = await Assessment.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      res.status(404).json({ error: 'Assessment not found' });
+      return;
+    }
+    res.status(200).json({ message: 'Assessment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting assessment:', error);
+    res.status(500).json({ error: 'Failed to delete assessment' });
   }
 });
 

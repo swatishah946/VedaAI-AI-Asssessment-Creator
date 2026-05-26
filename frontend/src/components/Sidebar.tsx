@@ -1,7 +1,12 @@
+'use client';
+
 import React from 'react';
 import { LayoutGrid, Users, FileText, BookOpen, Clock, Settings, Plus } from 'lucide-react';
+import { useAssessmentStore } from '../store/useAssessmentStore';
 
 export default function Sidebar() {
+  const { view, setView, history } = useAssessmentStore();
+
   return (
     <aside className="sidebar">
       {/* Brand */}
@@ -11,7 +16,7 @@ export default function Sidebar() {
       </div>
 
       {/* Primary Action */}
-      <button className="create-btn">
+      <button className="create-btn" onClick={() => setView('form')}>
         <Plus size={18} /> Create Assignment
       </button>
 
@@ -23,8 +28,18 @@ export default function Sidebar() {
         <li className="nav-item">
           <Users size={20} /> My Groups
         </li>
-        <li className="nav-item active">
-          <FileText size={20} /> Assignments
+        <li className={`nav-item ${view === 'list' || view === 'result' ? 'active' : ''}`} onClick={() => setView('list')} style={{ justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <FileText size={20} /> Assignments
+          </div>
+          {history.length > 0 && (
+            <span style={{
+              background: 'var(--primary-color)', color: 'white', borderRadius: '12px',
+              padding: '2px 8px', fontSize: '11px', fontWeight: 600
+            }}>
+              {history.length}
+            </span>
+          )}
         </li>
         <li className="nav-item">
           <BookOpen size={20} /> AI Teacher's Toolkit
