@@ -71,13 +71,24 @@ const assessmentSchema: Schema = {
 
 export const generateAssessmentStructure = async (
   topic: string,
-  difficulty: string,
-  questionsCount: number
+  questionsList: any[]
 ) => {
-  const prompt = `You are an expert curriculum designer. Generate a highly structured exam paper on the topic of "${topic}".
-  The overall difficulty should be "${difficulty}".
-  Generate exactly ${questionsCount} questions in total, appropriately divided into logical sections (e.g., Section A: Short Answer, Section B: Long Answer).
-  Ensure questions are a mix of difficulties if possible, but leaning towards the requested overall difficulty.`;
+  let structureInstructions = '';
+  if (questionsList && questionsList.length > 0) {
+    structureInstructions = 'The paper MUST strictly contain the following sections and exactly this number of questions:\n';
+    questionsList.forEach((q: any) => {
+      structureInstructions += `- Section: ${q.type}. Exactly ${q.count} questions. Each question is worth ${q.marks} marks.\n`;
+    });
+  } else {
+    structureInstructions = 'Generate a mix of 5 Multiple Choice and 5 Short Answer questions.\n';
+  }
+
+  const prompt = `You are an expert curriculum designer. Generate a highly structured exam paper based on the following instructions:
+  Topic or Additional Information: "${topic}".
+  
+  ${structureInstructions}
+  
+  Ensure the output strictly adheres to the requested number of questions and marks.`;
 
   try {
     const response = await ai.models.generateContent({

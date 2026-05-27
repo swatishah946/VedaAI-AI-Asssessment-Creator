@@ -1,6 +1,7 @@
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import MobileNav from "../components/MobileNav";
+import MobileHeader from "../components/MobileHeader";
 import "./globals.css";
 
 export const metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="app-container">
+          <MobileHeader />
           <Sidebar />
           <div className="main-area">
             <Header />

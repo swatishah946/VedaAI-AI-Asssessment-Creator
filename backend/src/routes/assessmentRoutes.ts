@@ -35,43 +35,34 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-// Endpoint to generate an assessment
+// Endpoint to trigger AI generation
 router.post('/generate', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { topic, difficulty, questionsCount } = req.body;
+    const { additionalInfo, dueDate, questionsList } = req.body;
 
-    if (!topic || !questionsCount) {
-      res.status(400).json({ error: 'Topic and questionsCount are required.' });
-      return;
-    }
+    // We'll use additionalInfo as the topic if available, otherwise a default
+    const topic = additionalInfo || 'General Assessment';
 
-    // 1. Create a new document in MongoDB with status: 'processing'
-    const newAssessment = new Assessment({
+    // 1. Create a new assessment record in MongoDB
+    const assessment = new Assessment({
       topic,
-      difficulty: difficulty || 'Moderate',
-      questionsCount,
-      status: 'processing'
+      dueDate,
+      questionsList,
+      status: 'processing',
     });
-    
-    const savedAssessment = await newAssessment.save();
+    await assessment.save();
 
-    // 2. Define the job payload, including the MongoDB document ID
-    const payload = {
-      assessmentId: savedAssessment._id,
+    // 2. Add job to BullMQ
+    await assessmentQueue.add('generateAssessment', {
+      assessmentId: assessment._id,
       topic,
-      difficulty: savedAssessment.difficulty,
-      questionsCount
-    };
+      questionsList,
+    });
 
-    // 3. Add the job to the queue
-    const job = await assessmentQueue.add('generate-assessment', payload);
-
-    // 4. Return the database ID so the frontend can poll or listen for it
     res.status(202).json({
       success: true,
       message: 'Assessment generation job queued successfully.',
-      assessmentId: savedAssessment._id,
-      jobId: job.id,
+      assessmentId: assessment._id,
       status: 'processing'
     });
   } catch (error) {

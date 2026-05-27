@@ -8,7 +8,7 @@ import { getIO } from '../socket';
 export const assessmentWorker = new Worker(
   'assessment-generation',
   async (job: Job) => {
-    const { assessmentId, topic, difficulty, questionsCount } = job.data;
+    const { assessmentId, topic, questionsList } = job.data;
     
     console.log(`[Worker] Starting job ${job.id} for assessment ${assessmentId}`);
 
@@ -17,8 +17,7 @@ export const assessmentWorker = new Worker(
       console.log(`[Worker] Generating AI structure for "${topic}"...`);
       const generatedResult = await generateAssessmentStructure(
         topic,
-        difficulty,
-        questionsCount
+        questionsList
       );
 
       // 2. Update the MongoDB document with the successful result

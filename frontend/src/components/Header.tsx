@@ -5,10 +5,10 @@ import { ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 
 export default function Header() {
-  const { setView } = useAssessmentStore();
+  const { setView, history } = useAssessmentStore();
 
   return (
-    <header className="header">
+    <header className={`header ${history.length === 0 ? 'header-empty' : ''}`}>
       <div className="header-title">
         <ArrowLeft size={20} style={{ color: 'var(--text-muted)', cursor: 'pointer' }} onClick={() => setView('list')} />
         <LayoutGrid size={20} style={{ color: 'var(--text-muted)' }} />

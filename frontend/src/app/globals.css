@@ -138,7 +138,7 @@ body {
 }
 
 /* Mobile Bottom Nav (Hidden on Desktop) */
-.mobile-nav {
+.mobile-nav, .mobile-fab {
   display: none;
 }
 
@@ -281,10 +281,19 @@ body {
   cursor: not-allowed;
 }
 
+  .mobile-header {
+    display: none;
+  }
+
 /* --- Responsive Media Queries --- */
 @media (max-width: 768px) {
+  body {
+    background-color: #cacaca; /* Slight darker background outside the container on mobile */
+  }
+
   .app-container {
     flex-direction: column;
+    background-color: var(--bg-color);
   }
   
   .sidebar {
@@ -292,12 +301,39 @@ body {
   }
 
   .header {
-    padding: 0 16px;
+    height: auto;
+    padding: 16px;
+    background: transparent;
+  }
+
+  .header-right {
+    display: none; /* Hide bell and profile on mobile, handled by MobileHeader */
+  }
+
+  .header.header-empty {
+    display: none; /* Hide entirely when there are no assignments */
+  }
+
+  .header-title {
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    justify-content: center; /* Center the "Assignments" text like Figma */
+    position: relative;
+  }
+
+  .header-title svg:first-child {
+    position: absolute;
+    left: 0;
+  }
+
+  .header-title svg:nth-child(2) {
+    display: none; /* Hide the layout grid icon on mobile sub-header */
   }
 
   .content-scroll {
     padding: 16px;
-    padding-top: 80px; /* Space for mobile nav at top */
+    padding-bottom: 120px; /* Space for mobile nav and FAB */
   }
 
   .card {
@@ -309,48 +345,142 @@ body {
     gap: 16px;
   }
 
-  /* Mobile Top Nav */
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 0 0 16px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Mobile Bottom Nav */
   .mobile-nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
     height: 70px;
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-color);
+    background: #111827;
+    border-radius: 20px;
     z-index: 100;
     padding: 0 8px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
   }
 
   .mobile-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     font-size: 10px;
-    color: var(--text-muted);
+    color: #6b7280;
+    cursor: pointer;
   }
 
   .mobile-nav-item.active {
-    color: var(--text-color);
+    color: #ffffff;
     font-weight: 600;
   }
 
   /* Floating action button on mobile */
   .mobile-fab {
-    width: 50px;
-    height: 50px;
+    position: fixed;
+    bottom: 60px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--primary-color);
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateY(-20px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    z-index: 110;
+    cursor: pointer;
+    border: 4px solid var(--bg-color);
+  }
+}
+
+/* --- New Assessment Form Styles --- */
+.file-dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  background: #fdfdfd;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+.file-dropzone:hover {
+  border-color: var(--primary-color);
+  background: #fffcfb;
+}
+
+.question-type-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stepper-control {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 30px;
+  padding: 4px 12px;
+  gap: 12px;
+}
+
+.stepper-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepper-value {
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.bottom-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .question-type-row {
+    flex-direction: column;
+    align-items: flex-start;
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 12px;
+    gap: 12px;
+    position: relative;
+  }
+  .question-type-row select {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+  .row-delete-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
   }
 }
