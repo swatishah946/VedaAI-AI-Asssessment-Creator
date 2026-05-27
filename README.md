@@ -6,7 +6,7 @@ Welcome to **VedaAI**, a state-of-the-art AI Assessment Creator designed to empo
 
 ## ✨ Features Implemented
 
-### 🟢 Core Requirements (100% Completed)
+### 🟢 Core Features
 - **Interactive Form Wizard**: A beautiful, multi-step React frontend built with Next.js, allowing teachers to configure subject, questions, marks, and drop source materials.
 - **Robust State Management**: Powered by **Zustand** with persistent storage.
 - **AI Question Generation**: Uses Gemini 2.5 Flash to generate complex questions (with varying difficulties) in a strict, fully-typed JSON schema format.
@@ -14,7 +14,7 @@ Welcome to **VedaAI**, a state-of-the-art AI Assessment Creator designed to empo
 - **Background Processing**: Uses **BullMQ + Redis** to handle heavy AI generation jobs asynchronously, ensuring the server never blocks.
 - **Real-Time WebSockets**: Frontend is instantly notified via `Socket.io` the exact millisecond the AI generation finishes.
 
-### 🌟 Bonus & "High Signal" Features (100% Completed)
+### 🌟 Bonus & "High Signal" Features 
 - **High-Quality PDF Export**: Teachers can download the final assessment as a perfectly formatted A4 PDF using `html2pdf.js`.
 - **Real File Upload & Parsing**: Teachers can drag-and-drop a **PDF or Text file** into the dashboard. The backend utilizes `pdf-parse` to extract the text and feeds it directly into the AI context window, generating questions *strictly based on the uploaded material*.
 - **API Redis Caching**: Custom caching middleware automatically caches assignment history in Redis, resulting in `<20ms` response times.
