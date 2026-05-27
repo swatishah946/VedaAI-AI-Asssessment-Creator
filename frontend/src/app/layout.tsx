@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import MobileNav from "../components/MobileNav";
 import MobileHeader from "../components/MobileHeader";
+import { Toaster } from 'react-hot-toast';
 import "./globals.css";
 
 export const metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Toaster position="bottom-right" toastOptions={{ style: { background: '#333', color: '#fff', borderRadius: '12px' } }} />
         <div className="app-container">
           <MobileHeader />
           <Sidebar />

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Bell, Menu } from 'lucide-react';
+import ProfileDropdown from './ProfileDropdown';
 
 export default function MobileHeader() {
   return (
@@ -15,7 +16,7 @@ export default function MobileHeader() {
           <Bell size={20} color="var(--text-color)" />
           <div style={{ position: 'absolute', top: 0, right: 0, width: '8px', height: '8px', background: '#ef4444', borderRadius: '50%', border: '2px solid white' }}></div>
         </div>
-        <div className="user-avatar" style={{ width: '28px', height: '28px' }}></div>
+        <ProfileDropdown showName={false} />
         <Menu size={24} color="var(--text-color)" />
       </div>
     </div>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 import { FileText, Search, Filter, MoreVertical, Plus } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function AssignmentsList() {
   const { history, setHistory, setView, setResult } = useAssessmentStore();
@@ -21,6 +22,7 @@ export default function AssignmentsList() {
       setHistory(data);
     } catch (err) {
       console.error('Failed to fetch history', err);
+      toast.error('Failed to load assignments');
     } finally {
       setLoading(false);
     }
@@ -43,7 +45,7 @@ export default function AssignmentsList() {
       setResult(parsedResult);
       setView('result');
     } else {
-      alert('This assessment is still generating or failed.');
+      toast('This assessment is still generating or failed.', { icon: '⏳' });
     }
   };
 
@@ -53,12 +55,13 @@ export default function AssignmentsList() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/assessments/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setHistory(history.filter((a: any) => a._id !== id));
+        toast.success('Assignment deleted successfully');
       } else {
-        alert('Failed to delete assignment');
+        toast.error('Failed to delete assignment');
       }
     } catch (err) {
       console.error(err);
-      alert('An error occurred while deleting');
+      toast.error('An error occurred while deleting');
     }
   };
 
