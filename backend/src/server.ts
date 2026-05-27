@@ -7,6 +7,7 @@ import { initializeSocket } from './socket';
 
 import dummyRoutes from './routes/dummyRoutes';
 import assessmentRoutes from './routes/assessmentRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 import './queue/assessmentWorker'; // Initialize the background worker
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.json());
 // Routes
 app.use('/api/dummy', dummyRoutes);
 app.use('/api/assessments', assessmentRoutes);
+app.use('/api', uploadRoutes);
 
 // Health check route
 app.get('/health', (req: Request, res: Response) => {
@@ -47,3 +49,4 @@ mongoose
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
   });
+

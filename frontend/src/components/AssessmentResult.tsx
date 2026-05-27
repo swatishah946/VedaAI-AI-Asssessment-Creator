@@ -3,8 +3,6 @@
 import React, { useRef } from 'react';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 import { Download, RotateCcw } from 'lucide-react';
-// @ts-ignore
-import html2pdf from 'html2pdf.js';
 
 export default function AssessmentResult() {
   const { result, setView, setAssessmentId } = useAssessmentStore();
@@ -12,9 +10,12 @@ export default function AssessmentResult() {
 
   if (!result) return null;
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     const element = printRef.current;
     if (!element) return;
+
+    // Dynamically import to prevent Next.js SSR crashes (self is not defined)
+    const html2pdf = (await import('html2pdf.js')).default;
 
     const opt = {
       margin: 10,

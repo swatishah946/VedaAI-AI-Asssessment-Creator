@@ -69,13 +69,34 @@ export default function AssessmentForm() {
     setIsSubmitting(true);
 
     try {
+      let materialContext = '';
+
+      // Upload and parse file if selected
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload-material`, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          materialContext = uploadData.text || '';
+        } else {
+          throw new Error('Failed to parse the uploaded file. Please try again.');
+        }
+      }
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/assessments/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           additionalInfo,
           dueDate,
-          questionsList
+          questionsList,
+          materialContext
         })
       });
 

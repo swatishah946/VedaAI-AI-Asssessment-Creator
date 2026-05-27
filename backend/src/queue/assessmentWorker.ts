@@ -3,12 +3,13 @@ import { connection } from './connection';
 import Assessment from '../models/Assessment';
 import { generateAssessmentStructure } from '../services/aiService';
 import { getIO } from '../socket';
+import { clearCache } from '../middleware/cacheMiddleware';
 
 // Initialize the worker to listen to the 'assessment-generation' queue
 export const assessmentWorker = new Worker(
   'assessment-generation',
   async (job: Job) => {
-    const { assessmentId, topic, questionsList } = job.data;
+    const { assessmentId, topic, questionsList, materialContext } = job.data;
     
     console.log(`[Worker] Starting job ${job.id} for assessment ${assessmentId}`);
 
@@ -17,7 +18,8 @@ export const assessmentWorker = new Worker(
       console.log(`[Worker] Generating AI structure for "${topic}"...`);
       const generatedResult = await generateAssessmentStructure(
         topic,
-        questionsList
+        questionsList,
+        materialContext
       );
 
       // 2. Update the MongoDB document with the successful result
@@ -30,6 +32,9 @@ export const assessmentWorker = new Worker(
         },
         { new: true }
       );
+      
+      // Invalidate cache
+      await clearCache('assessments');
 
       // 3. Emit real-time success event to the specific assessment's room
       try {
@@ -49,6 +54,9 @@ export const assessmentWorker = new Worker(
         status: 'failed',
         error: error.message || 'Unknown error occurred during generation',
       });
+      
+      // Invalidate cache
+      await clearCache('assessments');
       
       // 5. Emit real-time failure event
       try {

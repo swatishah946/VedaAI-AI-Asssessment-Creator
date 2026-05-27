@@ -71,7 +71,8 @@ const assessmentSchema: Schema = {
 
 export const generateAssessmentStructure = async (
   topic: string,
-  questionsList: any[]
+  questionsList: any[],
+  materialContext?: string
 ) => {
   let structureInstructions = '';
   if (questionsList && questionsList.length > 0) {
@@ -85,6 +86,8 @@ export const generateAssessmentStructure = async (
 
   const prompt = `You are an expert curriculum designer. Generate a highly structured exam paper based on the following instructions:
   Topic or Additional Information: "${topic}".
+  
+  ${materialContext ? `CRITICAL SOURCE MATERIAL: You MUST extract information and base your questions strictly on the following text context:\n"""\n${materialContext.substring(0, 30000)}\n"""\n` : ''}
   
   ${structureInstructions}
   
