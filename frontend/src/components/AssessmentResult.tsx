@@ -78,7 +78,7 @@ export default function AssessmentResult() {
           
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontWeight: 600, marginBottom: '8px' }}>
             <span>Time Allowed: 45 minutes</span>
-            <span>Maximum Marks: {result.sections.reduce((acc: any, sec: any) => acc + sec.questions.reduce((a: any, q: any) => a + q.marks, 0), 0)}</span>
+            <span>Maximum Marks: {(result.sections || []).reduce((acc: any, sec: any) => acc + (sec.questions || []).reduce((a: any, q: any) => a + (q.marks || 0), 0), 0)}</span>
           </div>
           <div style={{ fontSize: '12px', textAlign: 'left', fontStyle: 'italic', marginBottom: '24px' }}>
             All questions are compulsory unless stated otherwise.
@@ -93,9 +93,9 @@ export default function AssessmentResult() {
         </div>
 
         {/* Sections */}
-        {result.sections.map((section: any, sIdx: number) => (
+        {(result.sections || []).map((section: any, sIdx: number) => (
           <div key={sIdx} style={{ marginBottom: '32px' }}>
-            <h3 style={{ textAlign: 'center', fontSize: '14px', marginBottom: '8px', fontWeight: 600 }}>{section.title}</h3>
+            <h3 style={{ textAlign: 'center', fontSize: '14px', marginBottom: '8px', fontWeight: 600 }}>{section.title || `Section ${sIdx + 1}`}</h3>
             {section.instruction && (
               <div style={{ fontStyle: 'italic', fontSize: '12px', marginBottom: '16px' }}>
                 {section.instruction}
@@ -103,16 +103,16 @@ export default function AssessmentResult() {
             )}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {section.questions.map((q: any, qIdx: number) => (
+              {(section.questions || []).map((q: any, qIdx: number) => (
                 <div key={qIdx} style={{ display: 'flex', gap: '8px', fontSize: '13px' }}>
                   <div style={{ fontWeight: 600 }}>{qIdx + 1}.</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'inline' }}>
                       <span style={{ fontWeight: 600, color: '#4b5563', marginRight: '4px' }}>
-                        [{q.difficulty}]
+                        [{q.difficulty || 'Moderate'}]
                       </span>
-                      {q.text}
-                      <span style={{ fontWeight: 600, marginLeft: '8px' }}>[{q.marks} Marks]</span>
+                      {q.text || ''}
+                      <span style={{ fontWeight: 600, marginLeft: '8px' }}>[{q.marks || 0} Marks]</span>
                     </div>
                   </div>
                 </div>

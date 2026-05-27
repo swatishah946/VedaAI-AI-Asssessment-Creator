@@ -105,8 +105,13 @@ export const generateAssessmentStructure = async (
       throw new Error('No text returned from Gemini API.');
     }
 
-    // The response is guaranteed to be a JSON string matching our schema
-    const data = JSON.parse(response.text);
+    let cleanedText = response.text.trim();
+    if (cleanedText.startsWith('```')) {
+      // Remove ```json at the start and ``` at the end
+      cleanedText = cleanedText.replace(/^```(json)?\n?/, '').replace(/\n?```$/, '');
+    }
+
+    const data = JSON.parse(cleanedText);
     return data;
   } catch (error) {
     console.error('Error in AI generation:', error);

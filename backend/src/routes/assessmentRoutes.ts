@@ -86,4 +86,24 @@ router.delete('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+// PUT /api/assessments/:id (Update edited result)
+router.put('/:id', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { result } = req.body;
+    const updated = await Assessment.findByIdAndUpdate(
+      req.params.id,
+      { result },
+      { new: true }
+    );
+    if (!updated) {
+      res.status(404).json({ error: 'Assessment not found' });
+      return;
+    }
+    res.status(200).json({ success: true, assessment: updated });
+  } catch (error) {
+    console.error('Error updating assessment:', error);
+    res.status(500).json({ error: 'Failed to update assessment' });
+  }
+});
+
 export default router;

@@ -31,10 +31,17 @@ export default function AssignmentsList() {
       let parsedResult = assessment.result;
       if (typeof parsedResult === 'string') {
         try {
-          parsedResult = JSON.parse(parsedResult);
-        } catch(e) {}
+          let cleaned = parsedResult.trim();
+          if (cleaned.startsWith('```')) {
+            cleaned = cleaned.replace(/^```(json)?\n?/, '').replace(/\n?```$/, '');
+          }
+          parsedResult = JSON.parse(cleaned);
+        } catch(e) {
+          console.error("Failed to parse history result", e);
+        }
       }
       setResult(parsedResult);
+      setView('result');
     } else {
       alert('This assessment is still generating or failed.');
     }

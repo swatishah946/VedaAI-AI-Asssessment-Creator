@@ -4,6 +4,7 @@ import AssessmentForm from '@/components/AssessmentForm';
 import LoadingState from '@/components/LoadingState';
 import AssessmentResult from '@/components/AssessmentResult';
 import AssignmentsList from '@/components/AssignmentsList';
+import AssessmentReview from '@/components/AssessmentReview';
 import { useAssessmentStore } from '@/store/useAssessmentStore';
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       {view === 'list' && <AssignmentsList />}
       {view === 'form' && <AssessmentForm />}
       {view === 'loading' && <LoadingState />}
+      {view === 'review' && <AssessmentReview />}
       {view === 'result' && <AssessmentResult />}
     </main>
   );

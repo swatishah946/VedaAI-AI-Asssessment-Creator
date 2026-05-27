@@ -5,7 +5,7 @@ import { useAssessmentStore } from '../store/useAssessmentStore';
 import { socketService } from '../lib/socket';
 
 export default function LoadingState() {
-  const { assessmentId, setResult, setError } = useAssessmentStore();
+  const { assessmentId, setResult, setError, setView } = useAssessmentStore();
   const [dots, setDots] = useState('');
 
   useEffect(() => {
@@ -31,13 +31,18 @@ export default function LoadingState() {
       let parsedResult = data.result;
       if (typeof parsedResult === 'string') {
         try {
-          parsedResult = JSON.parse(parsedResult);
+          let cleaned = parsedResult.trim();
+          if (cleaned.startsWith('```')) {
+            cleaned = cleaned.replace(/^```(json)?\n?/, '').replace(/\n?```$/, '');
+          }
+          parsedResult = JSON.parse(cleaned);
         } catch (e) {
           console.error("Failed to parse result JSON", e);
         }
       }
       
       setResult(parsedResult);
+      setView('review');
     });
 
     // Listen for failure event
