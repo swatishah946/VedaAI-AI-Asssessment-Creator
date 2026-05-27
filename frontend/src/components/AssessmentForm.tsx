@@ -17,6 +17,7 @@ export default function AssessmentForm() {
   
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   
   const [questionsList, setQuestionsList] = useState<QuestionConfig[]>([
     { id: '1', type: 'Multiple Choice Questions', count: 4, marks: 1 },
@@ -51,6 +52,12 @@ export default function AssessmentForm() {
 
   const removeQuestion = (id: string) => {
     setQuestionsList(questionsList.filter(q => q.id !== id));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async () => {
@@ -111,9 +118,24 @@ export default function AssessmentForm() {
         {/* Dropzone */}
         <div className="file-dropzone">
           <CloudUpload size={32} color="#6b7280" style={{ margin: '0 auto 12px' }} />
-          <p style={{ fontWeight: 600, marginBottom: '4px' }}>Choose a file or drag & drop it here</p>
-          <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>JPEG, PNG, upto 10MB</p>
-          <button style={{ padding: '8px 24px', background: 'transparent', border: '1px solid #d1d5db', borderRadius: '30px', cursor: 'pointer', fontSize: '12px', fontWeight: 500 }}>Browse Files</button>
+          {selectedFile ? (
+            <p style={{ fontWeight: 600, color: '#10b981', marginBottom: '16px' }}>{selectedFile.name}</p>
+          ) : (
+            <>
+              <p style={{ fontWeight: 600, marginBottom: '4px' }}>Choose a file or drag & drop it here</p>
+              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '16px' }}>JPEG, PNG, upto 10MB</p>
+            </>
+          )}
+          
+          <label style={{ display: 'inline-block', padding: '8px 24px', background: 'transparent', border: '1px solid #d1d5db', borderRadius: '30px', cursor: 'pointer', fontSize: '12px', fontWeight: 500 }}>
+            Browse Files
+            <input 
+              type="file" 
+              accept=".pdf,image/png,image/jpeg"
+              style={{ display: 'none' }} 
+              onChange={handleFileChange}
+            />
+          </label>
         </div>
         <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '32px' }}>Upload images of your preferred document/image</p>
 
