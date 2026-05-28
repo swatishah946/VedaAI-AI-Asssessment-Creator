@@ -20,18 +20,20 @@ export interface AssessmentResult {
 }
 
 interface AssessmentState {
-  view: 'list' | 'form' | 'loading' | 'review' | 'result';
+  view: 'list' | 'form' | 'loading' | 'result' | 'review' | 'home' | 'groups' | 'toolkit';
   assessmentId: string | null;
   result: AssessmentResult | null;
   history: any[]; // Stores fetched assessments
+  loading: boolean;
   error: string | null;
   
   // Actions
-  setView: (view: 'list' | 'form' | 'loading' | 'review' | 'result') => void;
+  setView: (view: 'list' | 'form' | 'loading' | 'result' | 'review' | 'home' | 'groups' | 'toolkit') => void;
   setAssessmentId: (id: string) => void;
   setResult: (result: AssessmentResult) => void;
   setHistory: (history: any[]) => void;
   setError: (error: string) => void;
+  fetchAssessments: () => Promise<void>;
   reset: () => void;
 }
 
@@ -40,6 +42,7 @@ export const useAssessmentStore = create<AssessmentState>((set) => ({
   assessmentId: null,
   result: null,
   history: [],
+  loading: false,
   error: null,
 
   setView: (view) => set({ view }),

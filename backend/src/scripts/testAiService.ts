@@ -5,8 +5,7 @@ const runTest = async () => {
   try {
     const result = await generateAssessmentStructure(
       'Grade 8 Science - Chemical Effects of Electric Current',
-      'Moderate',
-      5
+      [{ type: 'Multiple Choice', count: 5, marks: 1 }]
     );
     
     console.log('\n--- SUCCESS! Raw JSON Output ---\n');

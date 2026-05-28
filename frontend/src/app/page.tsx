@@ -7,8 +7,12 @@ import AssignmentsList from '@/components/AssignmentsList';
 import AssessmentReview from '@/components/AssessmentReview';
 import { useAssessmentStore } from '@/store/useAssessmentStore';
 
+import DashboardHome from '../components/DashboardHome';
+import MyGroups from '../components/MyGroups';
+import AIToolkit from '../components/AIToolkit';
+
 export default function Home() {
-  const { view } = useAssessmentStore();
+  const view = useAssessmentStore((state) => state.view);
 
   return (
     <main>
@@ -17,6 +21,9 @@ export default function Home() {
       {view === 'loading' && <LoadingState />}
       {view === 'review' && <AssessmentReview />}
       {view === 'result' && <AssessmentResult />}
+      {view === 'home' && <DashboardHome />}
+      {view === 'groups' && <MyGroups />}
+      {view === 'toolkit' && <AIToolkit />}
     </main>
   );
 }

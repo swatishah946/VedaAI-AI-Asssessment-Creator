@@ -3,7 +3,7 @@
   --primary-color: #ff6b4a; /* Vibrant orange from Figma */
   --primary-dark: #e65a39;
   --primary-gradient: linear-gradient(135deg, #ff6b4a 0%, #ff9a7a 100%);
-  --bg-color: #f5f6f8; /* Soft gray background */
+  --bg-color: #f3f4f6; /* Distinct greyish background matching Figma */
   --sidebar-bg: rgba(255, 255, 255, 0.7);
   --text-color: #333333;
   --text-muted: #888888;

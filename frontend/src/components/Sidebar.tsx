@@ -32,13 +32,13 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <ul className="nav-menu">
-        <li className="nav-item">
+        <li className={`nav-item ${view === 'home' ? 'active' : ''}`} onClick={() => setView('home')}>
           <LayoutGrid size={20} /> Home
         </li>
-        <li className="nav-item">
+        <li className={`nav-item ${view === 'groups' ? 'active' : ''}`} onClick={() => setView('groups')}>
           <Users size={20} /> My Groups
         </li>
-        <li className={`nav-item ${view === 'list' || view === 'result' ? 'active' : ''}`} onClick={() => setView('list')} style={{ justifyContent: 'space-between' }}>
+        <li className={`nav-item ${view === 'list' || view === 'result' || view === 'form' || view === 'review' || view === 'loading' ? 'active' : ''}`} onClick={() => setView('list')} style={{ justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <FileText size={20} /> Assignments
           </div>
@@ -51,7 +51,7 @@ export default function Sidebar() {
             </span>
           )}
         </li>
-        <li className="nav-item">
+        <li className={`nav-item ${view === 'toolkit' ? 'active' : ''}`} onClick={() => setView('toolkit')}>
           <BookOpen size={20} /> AI Teacher's Toolkit
         </li>
         <li className="nav-item">

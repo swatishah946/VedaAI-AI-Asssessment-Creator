@@ -81,8 +81,14 @@ sequenceDiagram
 
 ### Prerequisites
 - Node.js (v18+)
-- MongoDB running locally or a MongoDB Atlas URI.
-- Redis running locally (`redis://localhost:6379`).
+- **Docker & Docker Compose** (The easiest way to run MongoDB and Redis locally)
+
+### 1. Run Databases via Docker (Recommended)
+This repository includes a `docker-compose.yml` file that spins up MongoDB and Redis instantly without needing manual installation.
+```bash
+docker-compose up -d
+```
+*(This will start MongoDB on port `27017` and Redis on port `6379` in the background).*
 
 ### 1. Clone & Install
 ```bash
@@ -129,3 +135,27 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` to access the platform!
+
+---
+
+## 🚀 Deployment Guide (Production)
+
+To deploy VedaAI to a production environment, follow this recommended stack:
+
+### 1. Database Layer
+- **MongoDB**: Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/atlas/database) and get your connection string.
+- **Redis**: Create a free Redis instance on [Upstash](https://upstash.com/) or [Render](https://render.com/).
+
+### 2. Backend (Render / Railway / Heroku)
+The backend is completely production-ready. When deploying as a Web Service on a platform like Render:
+1. Connect your GitHub repository.
+2. **Build Command**: `npm install && npm run build`
+3. **Start Command**: `npm start` (This runs `node dist/server.js`, which automatically spawns the BullMQ worker).
+4. **Environment Variables**: Add your `MONGODB_URI`, `REDIS_URI`, `GEMINI_API_KEY`, and set `FRONTEND_URL` to your Vercel domain.
+
+### 3. Frontend (Vercel)
+The Next.js frontend is heavily optimized for Vercel.
+1. Create a new project on [Vercel](https://vercel.com/) and link your repository.
+2. Change the **Root Directory** to `frontend`.
+3. Add your `NEXT_PUBLIC_API_URL` environment variable pointing to your deployed Render backend URL.
+4. Click **Deploy**. Vercel will automatically build and host the Next.js application.
