@@ -17,7 +17,7 @@ export default function AssessmentResult() {
     // Dynamically import to prevent Next.js SSR crashes (self is not defined)
     const html2pdf = (await import('html2pdf.js')).default;
 
-    const opt = {
+    const opt: any = {
       margin: 10,
       filename: `Assessment_${result.title.replace(/\s+/g, '_')}.pdf`,
       image: { type: 'jpeg' as const, quality: 0.98 },
