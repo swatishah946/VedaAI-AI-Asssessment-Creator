@@ -15,7 +15,7 @@ export default function AIToolkit() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
       <div>
         <h1 style={{ fontSize: '28px', fontWeight: 700, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          AI Teacher's Toolkit <Sparkles size={24} color="#f59e0b" />
+          AI Teacher&apos;s Toolkit <Sparkles size={24} color="#f59e0b" />
         </h1>
         <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>Supercharge your workflow with our advanced suite of AI teaching tools.</p>
       </div>

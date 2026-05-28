@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React from 'react';
@@ -52,7 +53,7 @@ export default function Sidebar() {
           )}
         </li>
         <li className={`nav-item ${view === 'toolkit' ? 'active' : ''}`} onClick={() => setView('toolkit')}>
-          <BookOpen size={20} /> AI Teacher's Toolkit
+          <BookOpen size={20} /> AI Teacher&apos;s Toolkit
         </li>
         <li className="nav-item">
           <Clock size={20} /> My Library
