@@ -2,6 +2,10 @@
 
 Welcome to **VedaAI**, a state-of-the-art AI Assessment Creator designed to empower teachers by effortlessly generating highly structured, curriculum-aligned exam papers using generative AI.
 
+### 🌐 Live Demo
+- **Frontend (Vercel):** [https://veda-ai-ai-asssessment-creator.vercel.app/](https://veda-ai-ai-asssessment-creator.vercel.app/)
+- **Backend API (Render):** [https://ai-asssessment-creator.onrender.com/health](https://ai-asssessment-creator.onrender.com/health)
+
 ---
 
 ## ✨ Features Implemented
