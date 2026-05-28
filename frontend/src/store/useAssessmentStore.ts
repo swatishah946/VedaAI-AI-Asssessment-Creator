@@ -33,7 +33,6 @@ interface AssessmentState {
   setResult: (result: AssessmentResult) => void;
   setHistory: (history: any[]) => void;
   setError: (error: string) => void;
-  fetchAssessments: () => Promise<void>;
   reset: () => void;
 }
 
