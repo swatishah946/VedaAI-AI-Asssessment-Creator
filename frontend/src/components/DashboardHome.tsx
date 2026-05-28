@@ -20,7 +20,7 @@ export default function DashboardHome() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
           <h1 style={{ fontSize: '28px', fontWeight: 700, color: 'var(--text-color)' }}>Welcome Back! 👋</h1>
-          <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>Here's an overview of your recent teaching activities.</p>
+          <p style={{ color: 'var(--text-muted)', marginTop: '4px' }}>Here&apos;s an overview of your recent teaching activities.</p>
         </div>
         <button onClick={() => setView('form')} className="create-btn" style={{ marginBottom: 0 }}>
           <Plus size={18} /> New Assignment

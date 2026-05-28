@@ -55,6 +55,7 @@ export default function LoadingState() {
     return () => {
       socketService.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessmentId, setResult, setError]);
 
   return (
